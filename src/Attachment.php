@@ -4,12 +4,12 @@ namespace Bnb\Laravel\Attachments;
 
 use Bnb\Laravel\Attachments\Contracts\AttachmentContract;
 use Carbon\Carbon;
-use Crypt;
-use File as FileHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File as FileHelper;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Storage;
 use Symfony\Component\HttpFoundation\File\File as FileObj;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
