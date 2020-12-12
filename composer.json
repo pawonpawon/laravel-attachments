@@ -1,5 +1,5 @@
 {
-  "name": "pawonpawon/laravel-attachments",
+  "name": "bnbwebexpertise/laravel-attachments",
   "description": "Laravel package to link file attachment to models",
   "type": "package",
   "license": "MIT",
