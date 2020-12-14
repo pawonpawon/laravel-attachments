@@ -293,6 +293,7 @@ class Attachment extends Model implements AttachmentContract
         //Attachaments are save in db with path /public/attachments (from .env setting ATTACHMENTS_STORAGE_DIRECTORY_PREFIX --> we MUST save under public for tenancy to work
         //but when retrieving assets .. this makes a double public/public under the hood.
         //remove public/ from path and use the Tenancy route for url generation
+        //set this in .env: ATTACHMENTS_STORAGE_DIRECTORY_PREFIX=public/attachments
 
         if ($this->isLocalStorage()) {
 
