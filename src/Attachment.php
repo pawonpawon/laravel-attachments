@@ -283,6 +283,33 @@ class Attachment extends Model implements AttachmentContract
     }
 
 
+    public function getTenantUrlAttribute()
+    {
+        /* Compatibility function for Tenancy for Laravel package: https://tenancyforlaravel.com/ */
+
+        //todo: make this better
+        //Tenancy saves files under stores/tenant_ID/app/public  << we should always save in public. see: https://tenancyforlaravel.com/docs/v2/filesystem-tenancy/  (v2 docs valid for v3)
+        //there's a Tenancy controller that returns an image response when using asset() or tenant_asset() and it prefixes app/public  << always including "public"
+        //Attachaments are save in db with path /public/attachments (from .env setting ATTACHMENTS_STORAGE_DIRECTORY_PREFIX --> we MUST save under public for tenancy to work
+        //but when retrieving assets .. this makes a double public/public under the hood.
+        //remove public/ from path and use the Tenancy route for url generation
+        //set this in .env: ATTACHMENTS_STORAGE_DIRECTORY_PREFIX=public/attachments
+
+        if ($this->isLocalStorage()) {
+
+            $prefix = 'public/';
+            $path_fixed = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $this->filepath);
+
+            $url = tenant_asset($path_fixed);
+            //$url = route('stancl.tenancy.asset', ['path' => $asset]); //same thing, tenant_asset is just a helper
+            return $url;
+
+        } else {
+            return Storage::disk($this->disk)->url($this->filepath);
+        }
+    }
+    
+    
     public function toArray()
     {
         $attributes = parent::toArray();
